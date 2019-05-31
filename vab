@@ -1,0 +1,23 @@
+Sub dsmch()
+Dim arr, brr, d, i&, s&, zf$
+Set d = CreateObject("scripting.dictionary")
+arr = Range("b1").CurrentRegion
+ReDim brr(1 To UBound(arr), 1 To 3)
+For i = 2 To UBound(arr)
+    zf = arr(i, 1) & "," & arr(i, 2)
+    If Not d.exists(zf) Then
+        s = s + 1
+        d(zf) = s
+        brr(s, 1) = arr(i, 1)
+        brr(s, 2) = arr(i, 2)
+        brr(s, 3) = arr(i, 3)
+    Else
+        n = d(zf)
+        brr(n, 3) = brr(n, 3) + arr(i, 3)
+    End If
+Next
+[f:h] = ""
+[f1:h1] = Array("lon", "lat", "ene")
+Range("f2").Resize(s, 3) = brr
+Range("f1").CurrentRegion.Sort [f1], , , , , , , xlGuess
+End Sub
